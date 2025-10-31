@@ -3,6 +3,7 @@ import { Header } from '../common/Header';
 import { WebSidebar } from './WebSidebar';
 import { WebTable } from './WebTable';
 import { WebDetailPanel } from './WebDetailPanel';
+import { MobileBottomNav } from '../mobile/MobileBottomNav';
 import { EditBuildingModal } from '../modals/EditBuildingModal';
 import { ImportCSVModal } from '../modals/ImportCSVModal';
 import { BackupRestoreModal } from '../modals/BackupRestoreModal';
@@ -27,16 +28,16 @@ export function WebView({ onTabChange }) {
     }
   };
 
-  const handleShowCSV = () => {
-    // 웹 버전에서는 WebSidebar의 CSV 버튼으로 처리되지만,
-    // Header에서도 접근 가능하도록 여기서 처리
+  const handleNavAction = (action) => {
+    if (action === 'import') setShowImportCSV(true);
+    if (action === 'backup') setShowBackup(true);
+    if (action === 'restore') setShowRestore(true);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-100 to-amber-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-100 to-amber-50 pb-24">
       <Header
         currentTab="buildings"
-        onTabChange={onTabChange}
         onCSVClick={() => setShowImportCSV(true)}
         onBackupClick={() => setShowBackup(true)}
         onRestoreClick={() => setShowRestore(true)}
@@ -82,6 +83,15 @@ export function WebView({ onTabChange }) {
       {showRestore && (
         <BackupRestoreModal onClose={() => setShowRestore(false)} mode="restore" />
       )}
+
+      {/* 하단 네비게이션 */}
+      <div className="hidden md:block">
+        <MobileBottomNav
+          onAction={handleNavAction}
+          currentTab="buildings"
+          onTabChange={onTabChange}
+        />
+      </div>
     </div>
   );
 }

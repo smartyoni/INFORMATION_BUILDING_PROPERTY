@@ -40,7 +40,6 @@ export function MobileView({ onTabChange }) {
     <div className="min-h-screen pb-20 bg-gradient-to-b from-amber-100 to-amber-50">
       <Header
         currentTab="buildings"
-        onTabChange={onTabChange}
         onCSVClick={() => setShowImportCSV(true)}
         onBackupClick={() => setShowBackup(true)}
         onRestoreClick={() => setShowRestore(true)}
@@ -50,8 +49,6 @@ export function MobileView({ onTabChange }) {
       {/* 건물 목록 - 테이블 뷰 */}
       <div className="p-4">
         <div className="maple-frame">
-          <div className="maple-header">건물 목록 - {filteredBuildings.length}개</div>
-
           {isLoading && (
             <div className="text-amber-300 text-center py-8">로딩 중...</div>
           )}
@@ -93,7 +90,11 @@ export function MobileView({ onTabChange }) {
       </button>
 
       {/* 하단 네비게이션 */}
-      <MobileBottomNav onAction={handleNavAction} />
+      <MobileBottomNav
+        onAction={handleNavAction}
+        currentTab="buildings"
+        onTabChange={onTabChange}
+      />
 
       {/* 상세 모달 */}
       {selectedBuilding && (

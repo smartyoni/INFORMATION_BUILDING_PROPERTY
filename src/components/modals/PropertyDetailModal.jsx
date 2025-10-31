@@ -2,6 +2,27 @@ import { useState, useRef } from 'react';
 import { MapleButton } from '../common/MapleFrame';
 import { useProperty } from '../../context/PropertyContext';
 
+// 경과일과 D-day 계산 함수
+const calculateDays = (dateString) => {
+  if (!dateString) return null;
+  const date = new Date(dateString);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diffTime = today - date;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
+const calculateDDay = (dateString) => {
+  if (!dateString) return null;
+  const date = new Date(dateString);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const diffTime = date - today;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+};
+
 export function PropertyDetailModal({ property, onClose, onEdit, onDelete }) {
   const { deleteProperty, updateProperty } = useProperty();
   const [isDeleting, setIsDeleting] = useState(false);
@@ -78,6 +99,32 @@ export function PropertyDetailModal({ property, onClose, onEdit, onDelete }) {
         <div className="p-4 space-y-4">
           {/* 기본 정보 */}
           <div className="bg-white/10 p-3 rounded">
+            {/* 경과일과 D-day */}
+            <div className="flex justify-between mb-3 pb-3 border-b border-amber-700/30">
+              <div className="flex-1">
+                <div className="text-amber-100 text-xs">
+                  경과일: <span className="text-red-400 font-bold">
+                    {calculateDays(property.receivedDate) !== null
+                      ? `${calculateDays(property.receivedDate)}일`
+                      : '-'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="text-amber-100 text-xs">
+                  <span className="text-red-400 font-bold">
+                    {calculateDDay(property.moveInDate) !== null
+                      ? calculateDDay(property.moveInDate) === 0
+                        ? 'D-0'
+                        : calculateDDay(property.moveInDate) > 0
+                        ? `D-${calculateDDay(property.moveInDate)}`
+                        : `D+${Math.abs(calculateDDay(property.moveInDate))}`
+                      : '-'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
             <div className="flex justify-between mb-2">
               <span className="font-bold text-amber-300">접수일</span>
               <span className="text-amber-100 text-sm">{property.receivedDate || '-'}</span>

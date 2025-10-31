@@ -3,6 +3,7 @@ import { Header } from '../common/Header';
 import { PropertyWebSidebar } from './PropertyWebSidebar';
 import { PropertyTable } from './PropertyTable';
 import { PropertyDetailPanel } from './PropertyDetailPanel';
+import { MobileBottomNav } from '../mobile/MobileBottomNav';
 import { EditPropertyModal } from '../modals/EditPropertyModal';
 import { AddPropertyModal } from '../modals/AddPropertyModal';
 import { ImportCSVModal } from '../modals/ImportCSVModal';
@@ -28,11 +29,16 @@ export function PropertyWebView({ onTabChange }) {
     }
   };
 
+  const handleNavAction = (action) => {
+    if (action === 'import') setShowImportCSV(true);
+    if (action === 'backup') setShowBackup(true);
+    if (action === 'restore') setShowRestore(true);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-100 to-amber-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-100 to-amber-50 pb-24">
       <Header
         currentTab="properties"
-        onTabChange={onTabChange}
         onCSVClick={() => setShowImportCSV(true)}
         onBackupClick={() => setShowBackup(true)}
         onRestoreClick={() => setShowRestore(true)}
@@ -78,6 +84,15 @@ export function PropertyWebView({ onTabChange }) {
       {showRestore && (
         <BackupRestoreModal onClose={() => setShowRestore(false)} mode="restore" dataType="properties" />
       )}
+
+      {/* 하단 네비게이션 */}
+      <div className="hidden md:block">
+        <MobileBottomNav
+          onAction={handleNavAction}
+          currentTab="properties"
+          onTabChange={onTabChange}
+        />
+      </div>
     </div>
   );
 }

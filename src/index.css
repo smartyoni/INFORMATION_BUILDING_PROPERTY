@@ -40,7 +40,7 @@
 }
 
 body {
-  background: linear-gradient(135deg, #E8DCC8 0%, #D9CDB5 100%);
+  background: #F5F5F0;
   color: #1a1a1a;
   font-family: Arial, sans-serif;
   overflow-x: hidden;
@@ -53,8 +53,8 @@ html, body, #root {
 
 /* 메이플 프레임 스타일 */
 .maple-frame {
-  background: linear-gradient(135deg, #D4C4A8 0%, #C9B896 100%);
-  border: 4px solid #8B6F47;
+  background: #FAFAF8;
+  border: 4px solid #1a1a1a;
   border-radius: 12px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
@@ -80,40 +80,22 @@ html, body, #root {
 
 /* 메이플 헤더 배너 */
 .maple-header {
-  background: linear-gradient(90deg, #8B5FB5 0%, #D4AF37 50%, #8B5FB5 100%);
-  color: #1a1a1a;
+  background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+  color: white;
   padding: 12px 16px;
   border-radius: 8px 8px 0 0;
   text-align: center;
   font-weight: bold;
   font-size: 16px;
   position: relative;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  border-bottom: 2px solid #6B4FA8;
-}
-
-.maple-header::before,
-.maple-header::after {
-  content: '◆';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #FFD700;
-  font-size: 16px;
-}
-
-.maple-header::before {
-  left: 8px;
-}
-
-.maple-header::after {
-  right: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid #1a1a1a;
 }
 
 /* 메이플 버튼 */
 .maple-button {
   background: linear-gradient(135deg, #D4AF37 0%, #B8956A 100%);
-  border: 3px solid #8B6F47;
+  border: 3px solid #1a1a1a;
   color: #2a2520;
   padding: 8px 16px;
   border-radius: 8px;
@@ -149,7 +131,7 @@ html, body, #root {
 /* 육각형 탭 버튼 */
 .maple-tab {
   background: linear-gradient(135deg, #B8956A 0%, #8B6F47 100%);
-  border: 2px solid #6B5038;
+  border: 2px solid #1a1a1a;
   color: #1a1a1a;
   padding: 4px 8px;
   margin: 1px;
@@ -175,7 +157,7 @@ html, body, #root {
 /* 메이플 카드 */
 .maple-card {
   background: linear-gradient(135deg, #C5B4E3 0%, #D4C4A8 100%);
-  border: 3px solid #8B6F47;
+  border: 3px solid #1a1a1a;
   border-radius: 8px;
   padding: 12px;
   margin: 8px 0;
@@ -196,32 +178,47 @@ html, body, #root {
 .maple-table {
   width: 100%;
   border-collapse: collapse;
-  background: linear-gradient(135deg, #D4C4A8 0%, #C9B896 100%);
+  background: #FAFAF8;
 }
 
 .maple-table th {
-  background: linear-gradient(90deg, #8B5FB5 0%, #D4AF37 50%, #8B5FB5 100%);
-  color: #1a1a1a;
-  padding: 12px;
+  background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  padding: 18px 16px;
   text-align: left;
-  border: 2px solid #8B6F47;
+  border: 2px solid #1a1a1a;
   font-weight: bold;
+  font-size: 15px;
+  letter-spacing: 0.5px;
 }
 
 .maple-table td {
-  padding: 12px;
-  border: 2px solid #B8956A;
+  padding: 14px 12px;
+  border: 2px solid #1a1a1a;
   color: #2a2520;
+  font-size: 14px;
 }
 
-.maple-table tr:nth-child(even) {
-  background: linear-gradient(135deg, rgba(196, 180, 227, 0.3) 0%, rgba(201, 184, 150, 0.3) 100%);
+.maple-table tr:nth-child(2n) {
+  background: #FFF0F5;
+}
+
+.maple-table tr:nth-child(4n+3) {
+  background: #FFFACD;
+}
+
+.maple-table tr:nth-child(4n+1):not(:first-child) {
+  background: #E0F8E0;
+}
+
+.maple-table tr:nth-child(6n+5) {
+  background: #E0F7FF;
 }
 
 /* 메이플 모달 */
 .maple-modal {
-  background: linear-gradient(135deg, #D4C4A8 0%, #C9B896 100%);
-  border: 5px solid #8B6F47;
+  background: #FAFAF8;
+  border: 5px solid #1a1a1a;
   border-radius: 16px;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.3),
@@ -254,7 +251,7 @@ html, body, #root {
   width: 60px;
   height: 60px;
   background: radial-gradient(circle at 30% 30%, #FFD700 0%, #D4AF37 50%, #B8956A 100%);
-  border: 3px solid #8B6F47;
+  border: 3px solid #1a1a1a;
   border-radius: 50%;
   color: #2a2520;
   font-size: 28px;
@@ -282,8 +279,8 @@ html, body, #root {
 
 /* 하단 네비게이션 */
 .maple-bottom-nav {
-  background: linear-gradient(180deg, #E8DCC8 0%, #D9CDB5 100%);
-  border-top: 3px solid #8B6F47;
+  background: #F5F5F0;
+  border-top: 3px solid #1a1a1a;
   padding: 8px 0;
   display: flex;
   justify-content: space-around;
@@ -318,7 +315,7 @@ html, body, #root {
   width: 32px;
   height: 32px;
   background: linear-gradient(135deg, #B8956A 0%, #8B6F47 100%);
-  border: 2px solid #6B5038;
+  border: 2px solid #1a1a1a;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -341,6 +338,20 @@ html, body, #root {
   .maple-button {
     padding: 6px 12px;
     font-size: 12px;
+  }
+
+  /* 모바일 테이블 헤더 크기 축소 (2/3 수준) */
+  .maple-table th {
+    padding: 12px 10px;
+    font-size: 10px;
+    letter-spacing: 0.3px;
+    border: 1px solid #1a1a1a;
+  }
+
+  .maple-table td {
+    padding: 10px 8px;
+    font-size: 12px;
+    border: 1px solid #1a1a1a;
   }
 
   /* 모바일 모달 크기 조정 */

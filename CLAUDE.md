@@ -101,6 +101,202 @@ src/
 | csvImporter.js | CSV 파싱 및 검증 |
 | ImportPropertyCSVModal.jsx | 매물 CSV 임포트 UI |
 
+## UI 디자인 가이드라인
+
+### 1. 모달 규격 표준화
+
+**모든 모달의 기본 너비:**
+- **데스크톱**: `max-width: 45%`
+- **모바일 (768px 이하)**: `max-width: 95%`
+- **높이**: `max-height: calc(90vh - 40px)`, `overflow-y: auto`
+
+**적용 방법:**
+```jsx
+// 방법 1: CSS 클래스 (권장)
+<div className="maple-modal w-full my-4">
+  {/* 내용 */}
+</div>
+
+// 방법 2: 인라인 스타일 (특수한 경우만)
+<div style={{ maxWidth: '45%', maxHeight: 'calc(90vh - 40px)' }}>
+  {/* 내용 */}
+</div>
+```
+
+### 2. 모달 구조 (Header + Content + Footer)
+
+**표준 헤더 패턴:**
+```jsx
+<div className="maple-header mb-4">
+  📥 CSV 파일 임포트
+</div>
+```
+
+**표준 콘텐츠 영역:**
+```jsx
+<div className="space-y-3 max-h-96 overflow-y-auto px-4">
+  {/* 폼 필드들 */}
+</div>
+```
+
+**표준 푸터 (버튼):**
+- **일반 모달 (추가/수정)**: 가로 배치 (flex-row)
+  ```jsx
+  <div className="flex gap-2 pt-4 border-t-2 border-amber-700">
+    <MapleButton className="flex-1">추가</MapleButton>
+    <MapleButton className="flex-1">취소</MapleButton>
+  </div>
+  ```
+
+- **상세보기 모달**: 세로 배치 (space-y-2)
+  ```jsx
+  <div className="pt-4 border-t-2 border-amber-700 space-y-2">
+    <MapleButton className="w-full text-sm">✏️ 수정</MapleButton>
+    <MapleButton className="w-full text-sm">🗑️ 삭제</MapleButton>
+    <MapleButton className="w-full text-sm">닫기</MapleButton>
+  </div>
+  ```
+
+### 3. 폼 필드 스타일 표준화
+
+**입력 필드 (Input/Textarea/Select):**
+```jsx
+className="w-full bg-white/20 border-2 border-amber-700 rounded px-3 py-2
+           text-amber-100 placeholder-amber-400 focus:outline-none
+           focus:border-amber-500 text-sm"
+```
+
+**라벨:**
+```jsx
+className="block text-amber-300 font-bold text-sm mb-1"
+```
+
+**2단 레이아웃 (예: 지번 + 사용승인일):**
+```jsx
+<div className="flex gap-2">
+  <div className="flex-1">
+    <label className="block text-amber-300 font-bold text-sm mb-1">지번</label>
+    <input className="..." />
+  </div>
+  <div className="flex-1">
+    <label className="block text-amber-300 font-bold text-sm mb-1">사용승인일</label>
+    <input className="..." />
+  </div>
+</div>
+```
+
+### 4. 색상 팔레트 (메이플 테마)
+
+| 용도 | 색상 | Tailwind Class |
+|------|------|-----------------|
+| 헤더 배경 | 그라디언트 | `linear-gradient(90deg, #8B5FB5 0%, #D4AF37 50%, #8B5FB5 100%)` |
+| 모달 배경 | 밝은 베이지 | `linear-gradient(135deg, #D4C4A8 0%, #C9B896 100%)` |
+| 주요 텍스트 | 황금색 | `text-amber-300` |
+| 부수 텍스트 | 밝은 황색 | `text-amber-100`, `text-amber-200` |
+| 보조 텍스트 | 어두운 황색 | `text-amber-800`, `text-amber-900` |
+| 입력 필드 배경 | 반투명 | `bg-white/20` |
+| 테두리 | 진한 황색 | `border-amber-700` (2px) |
+| 포커스 테두리 | 밝은 황색 | `focus:border-amber-500` |
+| 에러 메시지 | 빨간색 | `text-red-300` |
+| 성공 메시지 | 녹색 | `text-green-300` |
+
+### 5. 간격 및 여백 규칙
+
+| 요소 | 크기 | Tailwind Class |
+|------|------|-----------------|
+| 섹션 간격 | 12px | `space-y-3` |
+| 필드 간격 | 8px | `gap-2` |
+| 라벨 아래 여백 | 4px | `mb-1` |
+| 푸터 위 여백 | 16px | `pt-4` |
+| 좌우 패딩 | 16px | `px-4` |
+
+### 6. 기본 모달 템플릿
+
+```jsx
+import React, { useState } from 'react';
+import MapleButton from '../common/MapleButton';
+
+export default function TemplateModal({ isOpen, onClose, onSubmit }) {
+  const [data, setData] = useState({});
+
+  if (!isOpen) return null;
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = () => {
+    onSubmit(data);
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="maple-modal w-full my-4">
+        {/* 헤더 */}
+        <div className="maple-header mb-4">
+          ➕ 항목 추가
+        </div>
+
+        {/* 콘텐츠 */}
+        <div className="space-y-3 max-h-96 overflow-y-auto px-4">
+          <div>
+            <label className="block text-amber-300 font-bold text-sm mb-1">
+              필드명
+            </label>
+            <input
+              type="text"
+              name="fieldName"
+              value={data.fieldName || ''}
+              onChange={handleChange}
+              className="w-full bg-white/20 border-2 border-amber-700 rounded px-3 py-2
+                         text-amber-100 placeholder-amber-400 focus:outline-none
+                         focus:border-amber-500 text-sm"
+              placeholder="입력하세요"
+            />
+          </div>
+        </div>
+
+        {/* 푸터 (일반 모달용) */}
+        <div className="flex gap-2 pt-4 border-t-2 border-amber-700">
+          <MapleButton className="flex-1" onClick={handleSubmit}>
+            추가
+          </MapleButton>
+          <MapleButton className="flex-1" onClick={onClose}>
+            취소
+          </MapleButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+### 7. 반응형 디자인 원칙
+
+**모바일 전용 스타일 (768px 이하):**
+- 모달 너비: `95%`
+- 2단 레이아웃 → 1단 레이아웃으로 변환
+- 버튼 높이 증가
+- 폰트 크기 유지
+
+**구현 예시 (Tailwind):**
+```jsx
+<div className="md:w-2/5 w-11/12"> {/* 모바일: 95%, 데스크톱: 45% */}
+  {/* 내용 */}
+</div>
+```
+
+### 8. 중요 주의사항
+
+⚠️ **일관성 체크리스트:**
+- [ ] 모든 모달이 `max-width: 45%` (또는 데스크톱 기준 일정한 너비)
+- [ ] 모든 입력 필드가 동일한 스타일 사용
+- [ ] 헤더가 `maple-header` 클래스 적용
+- [ ] 푸터가 `border-t-2 border-amber-700` 사용
+- [ ] MapleButton 컴포넌트 사용 (표준 스타일링)
+- [ ] 모바일 반응형 대응 (768px 이하)
+
 ## 배포 명령어
 
 ```bash
